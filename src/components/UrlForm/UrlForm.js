@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
+import { postUrl } from '../../apiCalls';
 
 class UrlForm extends Component {
   constructor(props) {
     super();
-    this.props = props;
     this.state = {
       title: '',
-      urlToShorten: ''
+      urlToShorten: '',
+      errMessage: ""
     };
   }
 
@@ -16,11 +17,29 @@ class UrlForm extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    this.clearInputs();
+    const urlBody = {
+        title: this.state.title,
+        long_url: this.state.urlToShorten
+    }
+
+    if(this.state.title.length > 0 && this.state.urlToShorten.length > 0){
+      postUrl(urlBody)
+      .then(data => {
+        console.log(data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+      this.props.getAgain()
+      this.clearInputs();
+    } else {
+      this.setState({...this.state, errMessage:"Please fill out the title and url fields"})
+    }
   }
 
   clearInputs = () => {
-    this.setState({title: '', urlToShorten: ''});
+    this.setState({title: '', urlToShorten: '', errMessage: ""});
   }
 
   render() {
@@ -37,11 +56,11 @@ class UrlForm extends Component {
         <input
           type='text'
           placeholder='URL to Shorten...'
-          name='title'
-          value={this.state.title}
+          name='urlToShorten'
+          value={this.state.urlToShorten}
           onChange={e => this.handleNameChange(e)}
         />
-
+        <p>{this.state.errMessage}</p>
         <button onClick={e => this.handleSubmit(e)}>
           Shorten Please!
         </button>

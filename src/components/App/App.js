@@ -15,7 +15,22 @@ export class App extends Component {
   componentDidMount() {
     getUrls()
     .then((data) => {
+      console.log(data)
       this.setState({urls: data.urls})
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+  
+  getAgain = () => {
+    getUrls()
+    .then((data) => {
+      console.log(data)
+      this.setState({urls: data.urls})
+    })
+    .catch(err => {
+      console.log(err)
     })
   }
 
@@ -24,7 +39,7 @@ export class App extends Component {
       <main className="App">
         <header>
           <h1>URL Shortener</h1>
-          <UrlForm />
+          <UrlForm getAgain={this.getAgain}/>
         </header>
 
         <UrlContainer urls={this.state.urls}/>
