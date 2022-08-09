@@ -8,7 +8,8 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      urls: []
+      urls: [],
+      errMessage: null
     }
   }
 
@@ -19,7 +20,7 @@ export class App extends Component {
       this.setState({urls: data.urls})
     })
     .catch(err => {
-      console.log(err)
+      this.setState({...this.state, errMessage: `We are sorry, but something went wrong. ${err}`})
     })
   }
   
@@ -30,7 +31,7 @@ export class App extends Component {
       this.setState({urls: data.urls})
     })
     .catch(err => {
-      console.log(err)
+      this.setState({...this.state, errMessage: `We are sorry, but something went wrong. ${err}`})
     })
   }
 
@@ -41,8 +42,10 @@ export class App extends Component {
           <h1>URL Shortener</h1>
           <UrlForm getAgain={this.getAgain}/>
         </header>
-
+        {this.state.errMessage && <p>{this.state.errMessage}</p>}
+        {!this.state.errMessage && 
         <UrlContainer urls={this.state.urls}/>
+        }
       </main>
     );
   }

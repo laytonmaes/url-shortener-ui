@@ -71,4 +71,9 @@ describe('App', () => {
       cy.get("p").contains("https://test.gg")
     })
   })
+
+  it("should tell the user to fill out all forms if inputs are empty", () => {
+    cy.get("button").click()
+    cy.get("p").eq(0).contains("Please fill out the title and url fields")
+  })
 })

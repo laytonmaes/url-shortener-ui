@@ -28,7 +28,7 @@ class UrlForm extends Component {
         console.log(data)
       })
       .catch(err => {
-        console.log(err)
+        this.setState({...this.state, errMessage:`Sorry something went wrong and we were unable to send your url. ${err}`})
       })
 
       this.props.getAgain()
@@ -61,7 +61,7 @@ class UrlForm extends Component {
           onChange={e => this.handleNameChange(e)}
         />
         <p>{this.state.errMessage}</p>
-        <button onClick={e => this.handleSubmit(e)}>
+        <button type="submit" onClick={e => this.handleSubmit(e)}>
           Shorten Please!
         </button>
       </form>
